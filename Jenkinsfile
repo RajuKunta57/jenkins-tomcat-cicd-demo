@@ -41,6 +41,7 @@ stage('SonarCloud Analysis') {
     }
 }
 
+
 stage('Quality Gate') {
     steps {
         timeout(time: 5, unit: 'MINUTES') {
@@ -48,6 +49,7 @@ stage('Quality Gate') {
         }
     }
 }
+
         stage('Archive WAR') {
             steps {
                 archiveArtifacts artifacts: 'target/*.war',
