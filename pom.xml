@@ -9,12 +9,19 @@
     <version>1.0.0</version>
     <packaging>war</packaging>
 
-    <name>Jenkins Tomcat CI/CD Demo</name>
-
     <properties>
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <finalName>jenkins-tomcat-cicd-demo</finalName>
