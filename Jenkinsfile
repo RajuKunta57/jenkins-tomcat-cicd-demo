@@ -22,24 +22,25 @@ pipeline {
             }
         }
 
-        stage('SonarCloud Analysis') {
-            steps {
-                withCredentials([
-                    string(
-                        credentialsId: 'sonarcloud-token',
-                        variable: 'SONAR_TOKEN'
-                    )
-                ]) {
-                    sh '''
-                        mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-                          -Dsonar.organization=$SONAR_ORGANIZATION \
-                          -Dsonar.projectKey=$SONAR_PROJECT_KEY \
-                          -Dsonar.host.url=https://sonarcloud.io \
-                          -Dsonar.token="$SONAR_TOKEN"
-                    '''
-                }
+     
+stage('SonarCloud Analysis') {
+    steps {
+        withSonarQubeEnv('SonarCloud') {
+            withCredentials([
+                string(credentialsId: 'sonarcloud-token', variable: 'SONAR_TOKEN')
+            ]) {
+                sh '''
+                    mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+                      -Dsonar.organization=$SONAR_ORGANIZATION \
+                      -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+                      -Dsonar.host.url=https://sonarcloud.io \
+                      -Dsonar.token="$SONAR_TOKEN"
+                '''
             }
         }
+    }
+}
+
 stage('Quality Gate') {
     steps {
         timeout(time: 5, unit: 'MINUTES') {
