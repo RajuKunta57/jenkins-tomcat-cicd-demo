@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -11,6 +12,12 @@ pipeline {
         stage('Build and Test') {
             steps {
                 sh 'mvn clean verify'
+            }
+        }
+
+        stage('Archive WAR') {
+            steps {
+                archiveArtifacts artifacts: 'target/*.war', fingerprint: true
             }
         }
     }
